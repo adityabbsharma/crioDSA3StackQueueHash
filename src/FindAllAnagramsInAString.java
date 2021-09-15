@@ -49,40 +49,38 @@ import java.util.*;
 class FindAllAnagramsInAString {
 
     public List<Integer> findAnagrams(String s, String p) {
-        ArrayList<Integer> aList = new ArrayList<>();
         HashMap<Character,Integer> hMapofP = new HashMap<>();
+        List<Integer> returnList = new LinkedList<>();
         for(int i=0;i<p.length();i++)
             hMapofP.put(p.charAt(i),hMapofP.getOrDefault(p.charAt(i),0)+1);
-        //System.out.println(hMapofP);
+        if(hMapofP.size()==1){
+            HashMap<Character,Integer> hMapofS = new HashMap<>();
+            for(int i=0;i<s.length();i++)
+                hMapofS.put(s.charAt(i),hMapofS.getOrDefault(s.charAt(i),0)+1);
+            if(hMapofS.size()==1){
+                for(int i=0;i<=s.length()-p.length();i++)
+                    returnList.add(i);
+                return returnList;
+            }
+        }
         long[] pSum = new long[s.length()];
         pSum[0] = s.charAt(0);
-        //System.out.println(pSum[0]);
         int lOfp= p.length();
-        System.out.println("lOfP="+lOfp);
-        for(int i=1;i<s.length();i++){
+        for(int i=1;i<s.length();i++)
             pSum[i] = pSum[i-1] + s.charAt(i);
-            //System.out.println("pSum[i]="+pSum[i]);
-        }
-        ArrayList<Integer> returnList = new ArrayList<>();
         long ascciOfp=0;
         for(int i=0;i<lOfp;i++)
             ascciOfp += p.charAt(i);
-        System.out.println("ascci of p ="+ascciOfp);
+        int j=0;
         for(int i=0;i<=s.length()-p.length();i++){
             if(i>0){
-                if(i==110)
-                    System.out.println("at i=110 ascii of substring="+(pSum[lOfp+i-1] - pSum[i-1]));
-                //System.out.println("s.substring(i,i+lOfp)="+s.substring(i,i+lOfp)+" at i="+i);
                 if((pSum[lOfp+i-1] - pSum[i-1])== ascciOfp){
-                    //System.out.println("s.substring(i,i+lOfp)="+s.substring(i,i+lOfp)+" at i="+i);
                     if(check(s.substring(i,i+lOfp),hMapofP))
                         returnList.add(i);
                 }
             }
             else{
-                //System.out.println("s.substring(i,lOfp-1)="+s.substring(i,lOfp)+" at i="+i);
                 if(pSum[lOfp-1] == ascciOfp){
-                    //System.out.println("s.substring(i,lOfp)="+s.substring(i,lOfp)+" at i="+i);
                     if(check(s.substring(i,lOfp),hMapofP))
                         returnList.add(i);
                 }
@@ -93,18 +91,13 @@ class FindAllAnagramsInAString {
     }
     public boolean check(String org,HashMap<Character,Integer> hMapOfP){
         HashMap<Character,Integer> hMap = new HashMap<>();
-        //System.out.println("org="+org);
         for(int i=0;i<org.length();i++)
             hMap.put(org.charAt(i),hMap.getOrDefault(org.charAt(i),0)+1);
-        //System.out.println(hMap);
         for(Map.Entry<Character,Integer> map:hMap.entrySet()){
             char c = map.getKey();
             if(hMapOfP.containsKey(c)){
-                if(!hMapOfP.get(c).equals(map.getValue())){
-                    //System.out.println("at c= "+c+" map.getValue()= "+map.getValue()+" hMapOfP.get(c)="+hMapOfP.get(c));
+                if(!hMapOfP.get(c).equals(map.getValue()))
                     return false;
-                }
-
             }
             else
                 return false;
