@@ -105,7 +105,7 @@ public class IntersectionPointOfTwoLists {
     public static ListNode listIntersectionPoint(ListNode head1, ListNode head2) {
         int sizeOfHead1 = sizeOfLinkedList(head1);
         int sizeOfHead2 = sizeOfLinkedList(head2);
-        ListNode ansNode=head1;
+        ListNode ansNode=null;
         if(sizeOfHead1>sizeOfHead2){
             int diff = sizeOfHead1 - sizeOfHead2;
             ListNode temp1 = head1;
@@ -113,7 +113,7 @@ public class IntersectionPointOfTwoLists {
             while(diff-->0){
                 temp1 = temp1.next;
             }
-            while(temp1!=null || temp2!=null){
+            while(temp1!=null && temp2!=null){
                 if(temp1.val!=temp2.val){
                     temp1 = temp1.next;
                     temp2 = temp2.next;
@@ -128,10 +128,13 @@ public class IntersectionPointOfTwoLists {
             int diff = sizeOfHead2 - sizeOfHead1;
             ListNode temp1 = head1;
             ListNode temp2 = head2;
+            if(sizeOfHead1==sizeOfHead2){
+                return head1;
+            }
             while(diff-->0){
                 temp2 = temp2.next;
             }
-            while(temp1!=null || temp2!=null){
+            while(temp1!=null && temp2!=null){
                 if(temp1.val!=temp2.val){
                     temp1 = temp1.next;
                     temp2 = temp2.next;
@@ -142,6 +145,7 @@ public class IntersectionPointOfTwoLists {
                 }
             }
         }
+
         return ansNode;
     }
 
