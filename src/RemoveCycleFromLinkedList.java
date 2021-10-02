@@ -9,14 +9,19 @@ public class RemoveCycleFromLinkedList {
         if(head.next==null)
             return false;
         while(fastPointer!=null && slowPointer!=null && fastPointer.next!=null){
-            System.out.println("prev.val="+prev.val);
+
             prev = slowPointer;
-            fastPointer = fastPointer.next.next;
-            slowPointer = slowPointer.next;
-            if(slowPointer==head){
-                prev.next = null;
+
+            if(prev.next == prev.next.next){
+                slowPointer.next.next = null;
                 return true;
             }
+            if(prev == prev.next.next){
+                prev.next.next = null;
+                return true;
+            }
+            fastPointer = fastPointer.next.next;
+            slowPointer = slowPointer.next;
             if(fastPointer==slowPointer){
                 cycleFlag = true;
                 break;
@@ -39,7 +44,6 @@ public class RemoveCycleFromLinkedList {
                     count++;
                 }
             }
-            System.out.println("count ="+count);
             ListNode temp1 = head;
             ListNode temp2 = head;
             ListNode prev3 = temp1;
@@ -48,8 +52,7 @@ public class RemoveCycleFromLinkedList {
                 temp2 = temp2.next;
             }
             while(true){
-                if(temp1==temp2){
-                    System.out.println("prev3="+prev3.val+" prev3.next="+prev3.next.val);
+                if(temp1==temp2 || temp1.next == temp2){
                     prev3.next = null;
                     break;
                 }
@@ -70,13 +73,18 @@ public class RemoveCycleFromLinkedList {
     }
     public static void main(String[] args) {
         //LinkedListRemoveDuplicates linkedListRemoveDuplicates = new LinkedListRemoveDuplicates();
-        ListNode start1 = new ListNode(3);
+        ListNode start1 = new ListNode(2);
         start1.next = new ListNode(1);
-        start1.next.next = new ListNode(5);
-        start1.next.next.next = start1;
-//        start1.next.next.next.next = new ListNode(15);
-//        start1.next.next.next.next.next = new ListNode(7);
-//        start1.next.next.next.next.next.next = start1.next;
+        start1.next.next = start1;
+//        start1.next.next = new ListNode(-75);
+//        start1.next.next.next = new ListNode(57);
+//        start1.next.next.next.next = new ListNode(-5);
+//        start1.next.next.next.next.next = new ListNode(-63);
+//        start1.next.next.next.next.next.next = new ListNode(61);
+//        start1.next.next.next.next.next.next.next = new ListNode(96);
+//        start1.next.next.next.next.next.next.next.next = new ListNode(-66);
+//        start1.next.next.next.next.next.next.next.next.next = new ListNode(16);
+//        start1.next.next.next.next.next.next.next.next.next.next = start1.next.next.next.next.next.next.next.next;
         System.out.println(detectAndRemoveCycle(start1));
         printList(start1);
 
